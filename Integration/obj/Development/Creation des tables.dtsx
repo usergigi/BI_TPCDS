@@ -1,0 +1,693 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/4/2018 9:59:07 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-TDBBSM1"
+  DTS:CreatorName="DESKTOP-TDBBSM1\Souhail"
+  DTS:DTSID="{45189A2C-0B39-45AF-8C9F-DBBA321BCF22}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.0900.30"
+  DTS:LocaleID="1036"
+  DTS:ObjectName="Creation des tables"
+  DTS:PackageType="5"
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{7D158571-B47C-459B-B3C8-FF2761D81C13}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-TDBBSM1.DataWarehouse]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{36F9ED55-59D7-418C-B17A-C905B1C5C34B}"
+      DTS:ObjectName="DESKTOP-TDBBSM1.DataWarehouse">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=DESKTOP-TDBBSM1;Initial Catalog=DataWarehouse;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DESKTOP-TDBBSM1.dw_project]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+      DTS:ObjectName="DESKTOP-TDBBSM1.dw_project">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=DESKTOP-TDBBSM1;Initial Catalog=dw_project;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la base de données"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{22901A79-8D2D-481D-B649-793A1E1068DA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la base de données"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{36F9ED55-59D7-418C-B17A-C905B1C5C34B}"
+          SQLTask:SqlStatementSource="if not exists(select * from sys.databases where  name ='dw_project') create database dw_project" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim customer"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{c27d68ae-fc2a-4e45-900e-f04f0d5572a7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim customer"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_customer') is not null  drop table dbo.dim_customer&#xA;create table dbo.dim_customer(&#xA;[customer_id] [int] IDENTITY(1,1) NOT NULL,&#xA;[customer_first_name] [char](20) NULL,&#xA;[customer_last_name] [char](30) NULL,&#xA;[customer_login] [char](13) NULL,&#xA;[customer_email_address]  [char](50) NULL&#xA;CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[customer_id] ASC&#xA;) &#xA; ON [PRIMARY])&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim customer sta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{312F0BD2-5BEE-4DDB-AB83-1EA4EB77FF81}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim customer sta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_customer_sta') is not null  drop table dbo.dim_customer_sta&#xA;create table dbo.dim_customer_sta(&#xA;[customer_id] [int] NULL,&#xA;[customer_first_name] [char](20) NULL,&#xA;[customer_last_name] [char](30) NULL,&#xA;[customer_login] [char](13) NULL,&#xA;[customer_email_address]  [char](50) NULL)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{6e0bc412-905b-4c8c-a2f6-15d6f5bb04d7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim date"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_date') is not null  drop table dbo.dim_date&#xA;create table dbo.dim_date(&#xA;[date_id] [int] identity(1,1) not NULL,&#xA;[d_date] [date] NULL,&#xA;[d_month_seq] [int] NULL,&#xA;[d_week_seq] [int] NULL,&#xA;[d_year] [int] NULL,&#xA;[d_dow] [int] NULL,&#xA;[d_moy] [int] NULL,&#xA;[d_dom] [int] NULL,&#xA;[d_fy_year] [int] NULL,&#xA;[d_day_name] [char](9) NULL,&#xA;[d_holiday] [char](1) NULL,&#xA;[d_weekend] [char](1) NULL&#xA;CONSTRAINT [PK_date] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[date_id] ASC&#xA;)  ON [PRIMARY]&#xA;&#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim date sta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{f8bd5c8a-0bff-4657-af15-fecf9c2efbca}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim date sta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_date_sta') is not null  drop table dbo.dim_date_sta&#xA;create table dbo.dim_date_sta(&#xA;[date_id] [int] NULL,&#xA;[d_date] [date] NULL,&#xA;[d_month_seq] [int] NULL,&#xA;[d_week_seq] [int] NULL,&#xA;[d_year] [int] NULL,&#xA;[d_dow] [int] NULL,&#xA;[d_moy] [int] NULL,&#xA;[d_dom] [int] NULL,&#xA;[d_fy_year] [int] NULL,&#xA;[d_day_name] [char](9) NULL,&#xA;[d_holiday] [char](1) NULL,&#xA;[d_weekend] [char](1) NULL)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim item"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{99d624fe-9b0b-4f02-b418-ed8f178daa95}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim item"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_item') is not null  drop table dbo.dim_item&#xA;create table dbo.dim_item(&#xA;[item_id] [int] IDENTITY(1,1) not NULL,&#xA;[item_rec_start_date] [date] NULL,&#xA;[item_rec_end_date] [date] NULL,&#xA;[item_item_desc] [varchar](200) NULL,&#xA;[item_current_price] [decimal](7,2) NULL,&#xA;[item_wholesale_cost] [decimal](7,2) NULL,&#xA;[item_category] [char](50) NULL,&#xA;[item_class] [char](50) NULL,&#xA;[item_product_name] [char](50) NULL&#xA; CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[item_id] ASC&#xA;) &#xA; ON [PRIMARY]&#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim item sta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{61463cde-3296-4f14-bc90-711a6f5d640d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim item sta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_item_sta') is not null  drop table dbo.dim_item_sta&#xA;create table dbo.dim_item_sta(&#xA;[item_id] [int] NULL,&#xA;[item_rec_start_date] [date] NULL,&#xA;[item_rec_end_date] [date] NULL,&#xA;[item_item_desc] [varchar](200) NULL,&#xA;[item_current_price] [decimal](7,2) NULL,&#xA;[item_wholesale_cost] [decimal](7,2) NULL,&#xA;[item_category] [char](50) NULL,&#xA;[item_class] [char](50) NULL,&#xA;[item_product_name] [char](50) NULL)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim ship mode"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{406fa6ca-7113-4028-8d69-ef25646e6352}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim ship mode"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_ship_mode') is not null  drop table dbo.dim_ship_mode&#xA;create table dbo.dim_ship_mode(&#xA;[ship_mode_id] [int] identity(1,1) not NULL,&#xA;[ship_mode_type] [char](30) NULL,&#xA;[ship_mode_code] [char](30) NULL,&#xA;[ship_mode_carrier] [char](20) NULL,&#xA;[ship_mode_contract] [char](50) NULL&#xA; CONSTRAINT [PK_ship_mode] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[ship_mode_id] ASC&#xA;) &#xA; ON [PRIMARY]&#xA;&#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la dim ship mode sta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{760b73aa-074f-4a5b-9880-7ed8df5e1a64}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la dim ship mode sta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_ship_mode_sta') is not null  drop table dbo.dim_ship_mode_sta&#xA;create table dbo.dim_ship_mode_sta(&#xA;[ship_mode_id] [int] NULL,&#xA;[ship_mode_type] [char](30) NULL,&#xA;[ship_mode_code] [char](30) NULL,&#xA;[ship_mode_carrier] [char](20) NULL,&#xA;[ship_mode_contract] [char](50) NULL)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la table de fait sales"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{0f0cb7a9-62e7-433e-86d6-3d219b1058e0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la table de fait sales"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.fact_sales') is not null  drop table dbo.fact_sales&#xA;create table dbo.fact_sales(&#xA;[sales_date_id] [int] NOT NULL, &#xA;[sales_customer_id] [int] NOT NULL,&#xA;[sales_ship_mode_id] [int] NOT NULL,&#xA;[sales_item_id] [int] NOT NULL,&#xA;[sales_type] [int] NULL,&#xA;[sales_net_paid] decimal(7,2) NULL,&#xA;[sales_net_profit] decimal(7,2) NULL,&#xA;[sales_taux_payement] decimal(17,10) NULL&#xA; CONSTRAINT [PK_F_SALES] PRIMARY KEY  &#xA;(&#xA;&#x9;[sales_date_id] ASC,&#xA;&#x9;[sales_customer_id] ASC,&#xA;&#x9;[sales_item_id] ASC&#xA;) ON [PRIMARY]&#xA;&#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Creation de la table de fait sales sta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{c6ecf84a-616e-4c70-8ef0-74eb71e77a2f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Creation de la table de fait sales sta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.fact_sales_sta') is not null  drop table dbo.fact_sales_sta&#xA;create table dbo.fact_sales_sta(&#xA;[sales_sold_date] [int] NULL, &#xA;[sales_customer_id] [int] NULL,&#xA;[sales_ship_mode_id] [int] NULL,&#xA;[sales_item_id] [int] NULL,&#xA;[sales_type] [int] NULL,&#xA;[sales_net_paid] decimal(7,2) NULL,&#xA;[sales_net_profit] decimal(7,2) NULL,&#xA;[sales_taux_payement] decimal(17,10) NULL&#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\creation type table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{3F34C979-CA91-4E55-B06F-100FEE249EFE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="creation type table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="If object_id('dbo.dim_type') is not null  drop table dbo.dim_type&#xA;create table dbo.dim_type(&#xA;[dim_type_id] [int] NULL,&#xA;[dim_type_name] [char](20) NULL &#xA;)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\insertion dans type"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tâche d'exécution de requêtes SQL"
+      DTS:DTSID="{1EBF5ADC-A54A-45AE-A17C-C0F148A5FF09}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="insertion dans type"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4EE439D9-BEE8-494A-A921-20BE6CBE6C3E}"
+          SQLTask:SqlStatementSource="insert into dim_type(dim_type_id,dim_type_name) values(1,'Catalogue'),(2,'WEB')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte]"
+      DTS:CreationName=""
+      DTS:DTSID="{6BECA5FB-81F9-4063-9AE7-F39CF30AA15D}"
+      DTS:From="Package\Creation de la base de données"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte"
+      DTS:To="Package\Creation de la dim customer sta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{B5FA2D1D-5690-4F69-8E6C-D902D1C58EE7}"
+      DTS:From="Package\Creation de la dim customer sta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 1"
+      DTS:To="Package\Creation de la dim customer" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{EEDBB4DB-E737-4EE3-B09F-3DED0DAD6D08}"
+      DTS:From="Package\Creation de la table de fait sales"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 10"
+      DTS:To="Package\creation type table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 11]"
+      DTS:CreationName=""
+      DTS:DTSID="{18A95E8C-A43A-4AC2-9A41-F3648AE11B65}"
+      DTS:From="Package\creation type table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 11"
+      DTS:To="Package\insertion dans type" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{C7680C4A-799F-4DD3-A229-9FD0E5510E75}"
+      DTS:From="Package\Creation de la dim customer"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 2"
+      DTS:To="Package\Creation de la dim item sta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E3A6EB36-A55F-4415-93CD-B3769CB33962}"
+      DTS:From="Package\Creation de la dim item sta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 3"
+      DTS:To="Package\Creation de la dim item" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{C056AE9E-99E3-4093-9D0A-AF59ED9E1B00}"
+      DTS:From="Package\Creation de la dim item"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 4"
+      DTS:To="Package\Creation de la dim ship mode sta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{96CF0681-446E-42F7-9E25-B36E225C9EE4}"
+      DTS:From="Package\Creation de la dim ship mode sta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 5"
+      DTS:To="Package\Creation de la dim ship mode" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{A5A3636B-AAEF-45A3-B225-BBBDDECDC74A}"
+      DTS:From="Package\Creation de la dim ship mode"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 6"
+      DTS:To="Package\Creation de la dim date sta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{560B811F-29B8-4E8A-AE25-7571DC00A5A6}"
+      DTS:From="Package\Creation de la dim date sta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 7"
+      DTS:To="Package\Creation de la dim date" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{E394CF33-773C-4668-A13F-6551B0BE5D05}"
+      DTS:From="Package\Creation de la dim date"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 8"
+      DTS:To="Package\Creation de la table de fait sales sta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Contrainte 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{C3DCA73C-0330-41FE-868E-A2109C7DBFE0}"
+      DTS:From="Package\Creation de la table de fait sales sta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Contrainte 9"
+      DTS:To="Package\Creation de la table de fait sales" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Cette section CDATA contient des informations sur la disposition du package. Elle comprend des informations telles que les coordonnées (x,y), la largeur et la hauteur.-->
+<!--Si vous modifiez manuellement cette section et commettez une erreur, vous pouvez la supprimer. -->
+<!--Le package pourra toujours se charger normalement, mais les informations de disposition précédente seront perdues et le concepteur réorganisera automatiquement les éléments sur l'aire de conception.-->
+<Objects
+  Version="8">
+  <!--Chaque nœud ci-dessous contiendra des propriétés qui n'affectent pas le comportement d'exécution.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Creation de la base de données"
+          TopLeft="96,40" />
+        <NodeLayout
+          Size="212,42"
+          Id="Package\Creation de la dim customer"
+          TopLeft="372,151" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Creation de la dim customer sta"
+          TopLeft="363,46" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Creation de la dim date"
+          TopLeft="130,390" />
+        <NodeLayout
+          Size="206,42"
+          Id="Package\Creation de la dim date sta"
+          TopLeft="123,310" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Creation de la dim item"
+          TopLeft="112,228" />
+        <NodeLayout
+          Size="206,42"
+          Id="Package\Creation de la dim item sta"
+          TopLeft="110,148" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Creation de la dim ship mode"
+          TopLeft="376,310" />
+        <NodeLayout
+          Size="234,42"
+          Id="Package\Creation de la dim ship mode sta"
+          TopLeft="375,232" />
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Creation de la table de fait sales"
+          TopLeft="374,479" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Creation de la table de fait sales sta"
+          TopLeft="369,393" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte]"
+          TopLeft="323,64">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="40,0"
+              Start="0,0"
+              End="32.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="32.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 1]"
+          TopLeft="477.75,88">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,63"
+              Start="0,0"
+              End="0,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 2]"
+          TopLeft="372,170.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-56,0"
+              Start="0,0"
+              End="-48.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-48.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 3]"
+          TopLeft="209.75,190">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 4]"
+          TopLeft="301,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="74,0"
+              Start="0,0"
+              End="66.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="66.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 5]"
+          TopLeft="488.25,274">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 6]"
+          TopLeft="376,331">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-47,0"
+              Start="0,0"
+              End="-39.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-39.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 7]"
+          TopLeft="225.25,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 8]"
+          TopLeft="319,412.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50,0"
+              Start="0,0"
+              End="42.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="42.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 9]"
+          TopLeft="491.25,435">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="245,42"
+          Id="Package\creation type table"
+          TopLeft="66,482" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 10]"
+          TopLeft="374,501.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-63,0"
+              Start="0,0"
+              End="-55.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-55.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="169,42"
+          Id="Package\insertion dans type"
+          TopLeft="77,570" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Contrainte 11]"
+          TopLeft="188.5,524">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-27,46"
+              Start="0,0"
+              End="-27,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19"
+                    Point2="0,23"
+                    Point3="-4,23" />
+                  <mssgle:LineSegment
+                    End="-23,23" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-23,23"
+                    Point2="-27,23"
+                    Point3="-27,27" />
+                  <mssgle:LineSegment
+                    End="-27,38.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
